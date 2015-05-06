@@ -10,6 +10,6 @@ class Response
         } else {
             $response['data'] = $data;
         }
-        echo json_encode($response);
+        echo json_encode($response) . "\n";
     }
 }

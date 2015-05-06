@@ -13,7 +13,7 @@ class DB
     public static function query ($sql)
     {
         if (self::$con === null) {
-            self::connect('localhost', 'root', '', '');
+            self::connect('localhost', 'root', 'oiva', 'myroutines');
         }
         return self::$con->query($sql);
     }
