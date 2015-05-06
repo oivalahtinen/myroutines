@@ -8,11 +8,15 @@ var myRoutinesApp = angular.module('myRoutinesApp', [
 
 myRoutinesApp.config(function($routeProvider){
     $routeProvider
-      .when('/', {
+      .when('/login', {
         templateUrl: 'login.html',
         controller: 'LoginController'
       })
+      .when('/register', {
+          templateUrl: 'register.html',
+          controller: 'RegisterController'
+        })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/login'
       });
 });
