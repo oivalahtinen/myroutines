@@ -3,7 +3,8 @@ var myRoutinesApp = angular.module('myRoutinesApp', [
   'ngResource',
   'ngMessages',
   'controllers',
-  'services'
+  'services',
+  'ui.bootstrap'
 ]);
 
 myRoutinesApp.config(function($routeProvider){
