@@ -1,5 +1,7 @@
 <?php
 
+namespace MyRoutines\Classes;
+
 class Input
 {
     private static $data = array();

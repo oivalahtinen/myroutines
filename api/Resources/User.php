@@ -1,5 +1,7 @@
 <?php
 
+namespace MyRoutines\Resources;
+
 class User
 {
     public static function postUsers ()

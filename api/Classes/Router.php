@@ -1,5 +1,8 @@
 <?php
 
+namespace MyRoutines\Classes;
+use \MyRoutines\Classes;
+
 class Router
 {
     private static $url;
@@ -32,20 +35,23 @@ class Router
     public static function route()
     {
         $method = $_SERVER['REQUEST_METHOD'];
-        $resource = self::$resource[0];
-        $className = strtoupper(substr($resource, 0, 1)) . substr($resource, 1);
-        $fileName = 'resources/' . $resource . '.php';
+        $resource = self::ucFirst(self::$resource[0]);
+        $className = '\\MyRoutines\\Resources\\' . self::ucFirst($resource);
+        $fileName = 'Resources/' . $resource . '.php';
         if (file_exists($fileName) === false) {
-            Response::send('No such resource!', 'error');
+            Response::setStatus('error');
+            Response::send('No such resource!' . $fileName);
             return;
         }
-        if (class_exists($resource) === false) {
-            Response::send('No such class!', 'error');
+        if (class_exists($className) === false) {
+            Response::setStatus('error');
+            Response::send('No such class!');
             return;
         }
         $classMethod = strtolower($method) . self::getMethodName();
         if (is_callable(array($className, $classMethod), false, $callable) === false) {
-            Response::send('No such method!', 'error');
+            Response::setStatus('error');
+            Response::send('No such method!');
             return;
         }
         $response = call_user_func_array($callable, self::$id);
@@ -59,8 +65,13 @@ class Router
             self::$resource[count(self::$resource) - 1] .= "s";
         }
         for ($i = 0; $i < count(self::$resource); $i ++) {
-            $method .= strtoupper(substr(self::$resource[$i], 0, 1)) . substr(self::$resource[$i], 1);
+            $method .= self::ucFirst(self::$resource[$i]);
         }
         return $method;
+    }
+
+    private static function ucFirst ($string)
+    {
+        return strtoupper(substr($string, 0, 1)) . substr($string, 1);
     }
 }
