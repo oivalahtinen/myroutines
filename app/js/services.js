@@ -1,12 +1,17 @@
 
 var services = angular.module('services',["ngResource","ngCookies"]);
 
+services.config(function($httpProvider) {
+    //Enable cross domain calls
+    $httpProvider.defaults.useXDomain = true;
+});
+
 services.factory('AuthenticationService',
     ['Base64', '$http', '$cookieStore', '$rootScope', '$timeout',
         function (Base64, $http, $cookieStore, $rootScope, $timeout) {
             var service = {};
 
-            service.Login = function (email, password, callback) {
+            service.Login = function (username, password, callback) {
 
                 /* Dummy authentication for testing, uses $timeout to simulate api call
                  ----------------------------------------------*/
@@ -25,17 +30,34 @@ services.factory('AuthenticationService',
                 //        callback(response);
                 //    });
 
-                var obj = { mail : email, password : password };
-
+                var obj = { mail : username, password : password };
                 var config = {headers:  {
                     "Credentials" : obj
                     }
                 };
 
-                $http.get('http://192.168.10.48/myroutines/api/login', config)
-                    .success(function (response) {
-                        callback(response);
-                    });
+                //$http.get('http://192.168.10.48/myroutines/api/login', config)
+                //    .success(function (response) {
+                //        callback(response);
+                //    });
+                $http({
+                    url: 'http://192.168.10.48/myroutines/api/login',
+                    method: "GET",
+                    withCredentials: false,
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8',
+                        'Authorization': 'Basic bashe64username:password',
+                        'Credentials': JSON.stringify(obj)
+                    }
+                })
+                .success(function (response) {
+                    console.log(response);
+                    callback(response);
+                })
+                .error(function (response) {
+                    console.log("ERROR");
+                    callback(response);
+                });
             };
 
             service.SetCredentials = function (username, password) {
