@@ -6,26 +6,36 @@ services.factory('AuthenticationService',
         function (Base64, $http, $cookieStore, $rootScope, $timeout) {
             var service = {};
 
-            service.Login = function (username, password, callback) {
+            service.Login = function (email, password, callback) {
 
                 /* Dummy authentication for testing, uses $timeout to simulate api call
                  ----------------------------------------------*/
-                $timeout(function(){
-                    var response = { success: username === 'test' && password === 'test' };
-                    if(!response.success) {
-                        response.message = 'Username or password is incorrect';
-                    }
-                    callback(response);
-                }, 1000);
-
+                //$timeout(function(){
+                //    var response = { success: username === 'test' && password === 'test' };
+                //    if(!response.success) {
+                //        response.message = 'Username or password is incorrect';
+                //    }
+                //    callback(response);
+                //}, 1000);
 
                 /* Use this for real authentication
                  ----------------------------------------------*/
-                //$http.post('/api/authenticate', { username: username, password: password })
+                //$http.post('http://192.168.10.48/myroutines/api/login', { username: username, password: password })
                 //    .success(function (response) {
                 //        callback(response);
                 //    });
 
+                var obj = { mail : email, password : password };
+
+                var config = {headers:  {
+                    "Credentials" : obj
+                    }
+                };
+
+                $http.get('http://192.168.10.48/myroutines/api/login', config)
+                    .success(function (response) {
+                        callback(response);
+                    });
             };
 
             service.SetCredentials = function (username, password) {
