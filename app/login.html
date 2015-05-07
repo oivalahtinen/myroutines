@@ -1,4 +1,3 @@
-<div ng-show="error" class="alert alert-danger">{{error}}</div>
 <div class="container">
     <h2>MyRoutines</h2>
     <form class="form-signin" name="form" ng-submit="login()" role="form">
@@ -17,5 +16,6 @@
         <div class="form-actions">
             <button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary btn-block">Login</button>
         </div>
+        <div ng-show="error" class="alert alert-danger">{{error}}</div>
         </form>
 </div>
