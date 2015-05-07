@@ -24,6 +24,11 @@ class DB
         return $r;
     }
 
+    public static function insertId ()
+    {
+        return self::$con->insert_id;
+    }
+
     public static function select ($sql)
     {
         $result = self::query($sql);
