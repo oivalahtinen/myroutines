@@ -11,6 +11,7 @@ controllers.controller('LoginController',
                 $scope.dataLoading = true;
                 AuthenticationService.Login($scope.username, $scope.password, function(response) {
                     if(response.status === "success") {
+                        console.log("Login successful");
                         AuthenticationService.SetCredentials($scope.username, $scope.password);
                         $location.path('/');
                     } else {
@@ -52,6 +53,7 @@ controllers.controller('HomeController',
         function ($scope, $rootScope, $location, AuthenticationService) {
 
             $scope.logout = function () {
+                console.log("Logout successful");
                 AuthenticationService.ClearCredentials();
                 $location.path('/login');
             };
