@@ -24,27 +24,25 @@ controllers.controller('LoginController',
     ]);
 
 controllers.controller('RegisterController',
-    ['$scope', '$rootScope', '$location', 'AuthenticationService',
-        function ($scope, $rootScope, $location, AuthenticationService) {
-
+    ['$scope', '$rootScope', '$location', 'UserService',
+        function ($scope, $rootScope, $location, UserService) {
             $scope.loginPage = function() {
                 $location.path('/login');
             }
-            // reset login status
-            //AuthenticationService.ClearCredentials();
-            //
-            //$scope.login = function () {
-            //    $scope.dataLoading = true;
-            //    AuthenticationService.Login($scope.username, $scope.password, function(response) {
-            //        if(response.status === "success") {
-            //            AuthenticationService.SetCredentials($scope.username, $scope.password);
-            //            $location.path('/');
-            //        } else {
-            //            $scope.error = response.message;
-            //            $scope.dataLoading = false;
-            //        }
-            //    });
-            //};
+
+            $scope.register = function () {
+                console.log($scope.user);
+                $scope.dataLoading = true;
+                UserService.Create($scope.user, function(response) {
+                    if(response.status === "success") {
+                        console.log("Created new user");
+                        $location.path('/login');
+                    } else {
+                        $scope.error = response.message;
+                        $scope.dataLoading = false;
+                    }
+                });
+            };
         }
     ]);
 
