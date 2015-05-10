@@ -51,7 +51,7 @@ services.factory('AuthenticationService',
                     }
                 })
                 .success(function (response) {
-                    console.log(response);
+                    //console.log(response);
                     callback(response);
                 })
                 .error(function (response) {

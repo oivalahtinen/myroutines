@@ -15,7 +15,8 @@ controllers.controller('LoginController',
                         AuthenticationService.SetCredentials($scope.username, $scope.password);
                         $location.path('/');
                     } else {
-                        $scope.error = response.message;
+                        console.log("Login failed!");
+                        $scope.error = response.data;
                         $scope.dataLoading = false;
                     }
                 });
@@ -38,6 +39,7 @@ controllers.controller('RegisterController',
                         console.log("Created new user");
                         $location.path('/login');
                     } else {
+                        console.log($scope.error);
                         $scope.error = response.message;
                         $scope.dataLoading = false;
                     }

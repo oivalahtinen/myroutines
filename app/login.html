@@ -16,7 +16,8 @@
         <div class="form-actions">
             <button type="submit" ng-enabled="form.$invalid || dataLoading" class="btn btn-primary btn-block">Login</button>
             <a class="register" href="#register">Register</a>
+            <div ng-show="error" class="alert alert-danger">{{error}}</div>
         </div>
-        <div ng-show="error" class="alert alert-danger">{{error}}</div>
+
     </form>
 </div>
