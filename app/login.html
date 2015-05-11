@@ -15,9 +15,9 @@
         </div>
         <div class="form-actions">
             <button type="submit" ng-enabled="form.$invalid || dataLoading" class="btn btn-primary btn-block">Login</button>
+            <img ng-if="dataLoading" src="images/loading.gif"/>
             <a class="register" href="#register">Register</a>
             <div ng-show="error" class="alert alert-danger">{{error}}</div>
         </div>
-
     </form>
 </div>

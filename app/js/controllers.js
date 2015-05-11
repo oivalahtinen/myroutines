@@ -29,10 +29,9 @@ controllers.controller('RegisterController',
         function ($scope, $rootScope, $location, UserService) {
             $scope.loginPage = function() {
                 $location.path('/login');
-            }
+            };
 
             $scope.register = function () {
-                console.log($scope.user);
                 $scope.dataLoading = true;
                 UserService.Create($scope.user, function(response) {
                     if(response.status === "success") {
