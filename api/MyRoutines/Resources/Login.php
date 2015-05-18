@@ -9,31 +9,12 @@ class Login
     /**
      * @return mixed
      **/
-    public function getLogins()
+    public function getLogin()
     {
-        $l = Auth::authenticate(null, true);
-        if ($l === Auth::SUCCESS) {
+        if (Auth::authenticate(null, true) === true) {
             return ['ID' => Auth::$id];
         }
         Response::setStatus('fail');
-        if ($l === Auth::EMPTY_CREDENTIALS) {
-            return 'No credentials supplied!';
-        }
-        if ($l === Auth::EMPTY_MAIL) {
-            return 'Empty mail!';
-        }
-        if ($l === Auth::EMPTY_PASSWORD) {
-            return 'Empty password!';
-        }
-        if ($l === Auth::MAIL_NOT_FOUND) {
-            return 'Mail not found!';
-        }
-        if ($l === Auth::WRONG_PASSWORD) {
-            return 'Incorrect password!';
-        }
-
-        // Should never end up here...
-        Response::setStatus('error');
-        return 'Something went really wrong...';
+        return;
     }
 }

@@ -64,19 +64,6 @@ class DB
     /**
      *
      **/
-    public static function filter($data)
-    {
-        foreach ($data as $key => $value) {
-            unset($data[$key]);
-            $data['`'.$key.'`'] = '\''.self::$con->escape_string($value).'\'';
-        }
-
-        return $data;
-    }
-
-    /**
-     *
-     **/
     public static function close()
     {
         self::$con->close();

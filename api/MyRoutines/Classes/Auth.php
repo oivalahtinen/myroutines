@@ -8,28 +8,26 @@ namespace MyRoutines\Classes;
 class Auth
 {
     public static $id;
-    const SUCCESS = 1;
-    const FAIL = 2;
-    const EMPTY_CREDENTIALS = 3;
-    const EMPTY_MAIL = 4;
-    const EMPTY_PASSWORD = 5;
-    const MAIL_NOT_FOUND = 6;
-    const WRONG_PASSWORD = 7;
 
     /**
      *
      **/
-    public static function authenticate($id = null, $returnFailureType = false)
+    public static function authenticate($id = null, $includeFailureType = false)
     {
         if (array_key_exists('HTTP_CREDENTIALS', $_SERVER) === false) {
-            return self::EMPTY_CREDENTIALS;
-        }
+            Response::setData('No credentials supplied!');
 
+            return false;
+        }
         $c = json_decode($_SERVER['HTTP_CREDENTIALS']);
-        if ($returnFailureType === true && empty($c->mail) === true) {
-            return self::EMPTY_MAIL;
-        } elseif ($returnFailureType === true && empty($c->password) === true) {
-            return self::EMPTY_PASSWORD;
+        if ($includeFailureType === true && empty($c->mail) === true) {
+            Response::setData('Empty mail!');
+
+            return false;
+        } elseif ($includeFailureType === true && empty($c->password) === true) {
+            Response::setData('Empty password!');
+
+            return false;
         }
 
         $r = DB::selectOne(
@@ -45,10 +43,10 @@ class Auth
         if (($id === null && $r !== null) || $id = $r['ID']) {
             self::$id = $r['ID'];
 
-            return self::SUCCESS;
+            return true;
         }
-        if ($returnFailureType === false) {
-            return self::FAIL;
+        if ($includeFailureType === false) {
+            return false;
         }
 
         $r = DB::selectOne(
@@ -60,9 +58,13 @@ class Auth
                 Mail = \''.$c->mail.'\''
         );
         if (empty($r) === true) {
-            return self::MAIL_NOT_FOUND;
+            Response::setData('Mail not found!');
+
+            return false;
         }
 
-        return self::WRONG_PASSWORD;
+        Response::setData('Incorrect password!');
+
+        return false;
     }
 }

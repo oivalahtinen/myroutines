@@ -28,20 +28,28 @@ class BaseResource
         $this->name = $c[count($c) - 1];
     }
 
-    protected function find()
+    protected function find($criteria)
     {
+        $sql = 'SELECT * FROM '.$this->name.' WHERE ';
+        foreach ($criteria as $field => $value) {
+            $sql.= '`'.$field.'` = \''.$value.'\' AND ';
+        }
+        $sql = rtrim($sql, ' AND ');
+        return DB::select($sql);
     }
 
     protected function create($values)
     {
-        $values = DB::filter($values);
-
-        return DB::query(
-            'INSERT INTO
-                '.$this->name.' (
-                    '.implode(',', array_keys($values)).') VALUES (
-                    '.implode(',', $values).')'
-        );
+        $sql = 'INSERT INTO '.$this->name.' (';
+        foreach (array_keys($values) as $key) {
+            $sql .= '`'.$key.'`,';
+        }
+        $sql = rtrim($sql, ',').') VALUES (';
+        foreach ($values as $value) {
+            $sql .= '\''.$value.'\',';
+        }
+        $sql = rtrim($sql, ',').')';
+        return DB::query($sql);
     }
 
     protected function update()

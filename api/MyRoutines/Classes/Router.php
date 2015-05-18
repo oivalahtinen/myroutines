@@ -12,15 +12,6 @@ class Router
     private static $url = '';
     private static $resources = array();
     private static $id = array();
-    private static $routes = array();
-
-    /**
-     * @param string[] $routes
-     **/
-    public static function setRoutes($routes)
-    {
-        self::$routes = $routes;
-    }
 
     /**
      *
@@ -36,59 +27,45 @@ class Router
      **/
     public static function route()
     {
-        $method = $_SERVER['REQUEST_METHOD'];
-        $resources = self::ucFirst(self::$resources[0]);
-        $className = '\\MyRoutines\\Resources\\'.self::ucFirst($resources);
-        $fileName = 'MyRoutines/Resources/'.$resources.'.php';
+        $httpMethod = strtolower($_SERVER['REQUEST_METHOD']);
+        $resource = self::$resources[count(self::$resources) - 1];
+        $className = '\\MyRoutines\\Resources\\'.$resource;
+        $fileName = 'MyRoutines/Resources/'.$resource.'.php';
+
         if (file_exists($fileName) === false) {
             Response::setStatus('error');
-            Response::send('No such resources!'.$fileName);
+            Response::send('Server Error! (File not found)');
 
             return;
         }
+
         if (class_exists($className) === false) {
             Response::setStatus('error');
-            Response::send('No such class!');
+            Response::send('Server Error! (Class not found)');
 
             return;
         }
+
         $callable = array(
             $className::getInstance(),
-            strtolower($method).self::getMethodName(),
+            $httpMethod.$resource,
         );
         if (is_callable($callable) === false) {
             Response::setStatus('error');
-            Response::send('No such method!');
+            Response::send('Server Error! (Method not found)');
 
             return;
         }
+
         $response = call_user_func_array($callable, self::$id);
         Response::send($response);
-    }
-
-    private static function getMethodName()
-    {
-        $method = '';
-        if (count(self::$resources) > count(self::$id)) {
-            self::$resources[count(self::$resources) - 1] .= 's';
-        }
-        for ($i = 0; $i < count(self::$resources); $i ++) {
-            $method .= self::ucFirst(self::$resources[$i]);
-        }
-
-        return $method;
-    }
-
-    private static function ucFirst($text)
-    {
-        return strtoupper(substr($text, 0, 1)).substr($text, 1);
     }
 
     private static function setResourcesAndIds()
     {
         for ($i = 0; $i < count(self::$url); $i ++) {
             if ($i % 2 === 0) {
-                self::$resources[] = self::$url[$i];
+                self::$resources[] = ucfirst(self::$url[$i]);
             } else {
                 self::$id[] = self::$url[$i];
             }

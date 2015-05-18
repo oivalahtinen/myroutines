@@ -9,34 +9,24 @@ use MyRoutines\Classes\BaseResource;
 
 class User extends BaseResource
 {
-    public function getUsers()
+    public function postUser()
     {
-        self::find();
-    }
-
-    public function postUsers()
-    {
-        $r = ['mail' => false, 'password' => false];
-        $mail = Input::post('mail');
-        $password = Input::post('password');
-
-        if (empty($mail) === false) {
-            $r['mail'] = true;
-        }
-        if (empty($password) === false) {
-            $r['password'] = true;
-        }
-        if (empty($mail) === true || empty($password) === true) {
+        $input = Input::get(array('mail', 'password'));
+        if ($input['ok'] === false) {
             Response::setStatus('fail');
-            return $r;
+
+            return $input['fields'];
         }
 
-        $q = $this->create(array('Mail' => $mail, 'Password' => $password));
-        if ($q === true) {
+        $created = $this->create($input['values']);
+        if ($created === true) {
             return DB::insertId();
         }
+
+        // Creating resource failed
         Response::setStatus('fail');
-        $r['mail'] = false;
-        return $r;
+        $input['fields']['mail'] = false;
+
+        return $input['fields'];
     }
 }
