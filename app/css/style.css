@@ -30,3 +30,6 @@ body {
     margin-top:10px;
 }
 
+.error {
+    color: darkred;
+}

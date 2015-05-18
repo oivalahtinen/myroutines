@@ -5,8 +5,11 @@ var myRoutinesApp = angular.module('myRoutinesApp', [
   'ngCookies',
   'controllers',
   'services',
+  'directives',
   'ui.bootstrap'
 ]);
+
+//myApp.value('ipList', { ip: [ '192.168.10.48', 'localhost' ]});
 
 myRoutinesApp.config(function($routeProvider){
     $routeProvider

@@ -1,4 +1,3 @@
-
 var controllers = angular.module('controllers',[]);
 
 controllers.controller('LoginController',
@@ -7,7 +6,13 @@ controllers.controller('LoginController',
             // reset login status
             AuthenticationService.ClearCredentials();
 
-            $scope.login = function () {
+            $scope.checkFormAndSubmit = function(isValid) {
+                if (isValid) {
+                    login();
+                }
+            };
+
+            function login() {
                 $scope.dataLoading = true;
                 AuthenticationService.Login($scope.username, $scope.password, function(response) {
                     if(response.status === "success") {
@@ -27,19 +32,29 @@ controllers.controller('LoginController',
 controllers.controller('RegisterController',
     ['$scope', '$rootScope', '$location', 'UserService',
         function ($scope, $rootScope, $location, UserService) {
+
+            $scope.checkFormAndSubmit = function(isValid) {
+                console.log("Form validity:" + isValid);
+                if (isValid) {
+                    register();
+                }
+            };
+
             $scope.loginPage = function() {
                 $location.path('/login');
             };
 
-            $scope.register = function () {
+            function register() {
                 $scope.dataLoading = true;
                 UserService.Create($scope.user, function(response) {
                     if(response.status === "success") {
                         console.log("Created new user");
                         $location.path('/login');
                     } else {
-                        console.log($scope.error);
-                        $scope.error = response.message;
+                        if(response.data.mail === false) {
+                            $scope.error = "Mail is already in use.";
+                        }
+                        //$scope.error = response.data;
                         $scope.dataLoading = false;
                     }
                 });
