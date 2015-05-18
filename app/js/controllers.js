@@ -1,13 +1,24 @@
-
 var controllers = angular.module('controllers',[]);
 
 controllers.controller('LoginController',
-    ['$scope', '$rootScope', '$location', 'AuthenticationService',
-        function ($scope, $rootScope, $location, AuthenticationService) {
+    ['$scope', '$rootScope', '$location', 'AuthenticationService', 'UserProperties',
+        function ($scope, $rootScope, $location, AuthenticationService, UserProperties) {
             // reset login status
             AuthenticationService.ClearCredentials();
 
-            $scope.login = function () {
+            if(UserProperties.getRegisteredUserStatus() === true) {
+                $scope.userRegistrationStatus = UserProperties.getRegisteredUserStatus();
+                $scope.userRegistrationMail = UserProperties.getRegisteredUserMail();
+            }
+            UserProperties.clearRegisteredUser();
+
+            $scope.checkFormAndSubmit = function(isValid) {
+                if (isValid) {
+                    login();
+                }
+            };
+
+            function login() {
                 $scope.dataLoading = true;
                 AuthenticationService.Login($scope.username, $scope.password, function(response) {
                     if(response.status === "success") {
@@ -20,30 +31,39 @@ controllers.controller('LoginController',
                         $scope.dataLoading = false;
                     }
                 });
-            };
+            }
         }
     ]);
 
 controllers.controller('RegisterController',
-    ['$scope', '$rootScope', '$location', 'UserService',
-        function ($scope, $rootScope, $location, UserService) {
+    ['$scope', '$rootScope', '$location', 'UserService', 'UserProperties',
+        function ($scope, $rootScope, $location, UserService, UserProperties) {
+            $scope.checkFormAndSubmit = function(isValid) {
+                if (isValid) {
+                    register();
+                }
+            };
+
             $scope.loginPage = function() {
                 $location.path('/login');
             };
 
-            $scope.register = function () {
+            function register() {
                 $scope.dataLoading = true;
                 UserService.Create($scope.user, function(response) {
                     if(response.status === "success") {
                         console.log("Created new user");
+                        UserProperties.setRegisteredUser($scope.user.mail, true);
                         $location.path('/login');
+                        //console.log("Register page:" + UserProperties.getRegisteredUser().toString());
                     } else {
-                        console.log($scope.error);
-                        $scope.error = response.message;
+                        if(response.data.mail === false) {
+                            $scope.error = "Mail is already in use.";
+                        }
                         $scope.dataLoading = false;
                     }
                 });
-            };
+            }
         }
     ]);
 
@@ -56,5 +76,7 @@ controllers.controller('HomeController',
                 AuthenticationService.ClearCredentials();
                 $location.path('/login');
             };
+
+            $scope.currentUser = $rootScope.globals.currentUser.username;
         }
     ]);

@@ -7,20 +7,18 @@ services.config(function($httpProvider) {
 });
 
 services.factory('AuthenticationService',
-    ['$http', '$cookieStore', '$rootScope', '$timeout',
-        function ($http, $cookieStore, $rootScope, $timeout) {
+    ['$http', '$cookieStore', '$rootScope',
+        function ($http, $cookieStore, $rootScope) {
             var service = {};
+            //var ip = "192.168.10.41";
+            var ip = "localhost";
 
             service.Login = function (username, password, callback) {
 
                 var obj = { mail : username, password : password };
-                var config = {headers:  {
-                    "Credentials" : obj
-                    }
-                };
 
                 $http({
-                    url: 'http://localhost/myroutines/api/login',
+                    url: 'http://' + ip + '/myroutines/api/login',
                     method: "GET",
                     withCredentials: false,
                     headers: {
@@ -63,7 +61,6 @@ services.factory('AuthenticationService',
             return service;
         }])
 
-//Work in progress
 services.factory('UserService',
     ['$http',
         function ($http) {
@@ -71,11 +68,14 @@ services.factory('UserService',
 
             service.Create = Create;
 
+            //var ip = "192.168.10.41";
+            var ip = "localhost";
+
             return service;
 
             function Create(user, callback) {
                 $http({
-                    url: 'http://localhost/myroutines/api/user',
+                    url: 'http://' + ip + '/myroutines/api/user',
                     method: "POST",
                     data: user,
                     withCredentials: false,
@@ -95,3 +95,36 @@ services.factory('UserService',
         }
     ]
 );
+
+services.factory('UserProperties', function() {
+    var registeredUser = {
+        mail: null,
+        active: false
+    };
+
+    return {
+        setRegisteredUser: function(value, status) {
+            registeredUser.mail = value;
+            registeredUser.active = status;
+        },
+        getRegisteredUser: function() {
+            return registeredUser;
+        },
+        getRegisteredUserMail: function() {
+            return registeredUser.mail;
+        },
+        setRegisteredUserMail: function(value) {
+            registeredUser.mail = value;
+        },
+        getRegisteredUserStatus: function() {
+            return registeredUser.active;
+        },
+        setRegisteredUserStatus: function(value) {
+            registeredUser.active = value;
+        },
+        clearRegisteredUser: function() {
+            registeredUser.mail = null;
+            registeredUser.active = false;
+        }
+    }
+});
