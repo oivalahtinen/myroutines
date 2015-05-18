@@ -10,8 +10,8 @@ services.factory('AuthenticationService',
     ['$http', '$cookieStore', '$rootScope',
         function ($http, $cookieStore, $rootScope) {
             var service = {};
-            //var ip = "192.168.10.41";
-            var ip = "localhost";
+            var ip = "192.168.10.41";
+            //var ip = "localhost";
 
             service.Login = function (username, password, callback) {
 
@@ -68,8 +68,8 @@ services.factory('UserService',
 
             service.Create = Create;
 
-            //var ip = "192.168.10.41";
-            var ip = "localhost";
+            var ip = "192.168.10.41";
+            //var ip = "localhost";
 
             return service;
 
