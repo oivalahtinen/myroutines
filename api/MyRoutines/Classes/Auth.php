@@ -2,6 +2,9 @@
 
 namespace MyRoutines\Classes;
 
+/**
+ *
+ **/
 class Auth
 {
     public static $id;
@@ -13,7 +16,10 @@ class Auth
     const MAIL_NOT_FOUND = 6;
     const WRONG_PASSWORD = 7;
 
-    public static function authenticate ($id = null, $returnFailureType = false)
+    /**
+     *
+     **/
+    public static function authenticate($id = null, $returnFailureType = false)
     {
         if (array_key_exists('HTTP_CREDENTIALS', $_SERVER) === false) {
             return self::EMPTY_CREDENTIALS;
@@ -22,7 +28,7 @@ class Auth
         $c = json_decode($_SERVER['HTTP_CREDENTIALS']);
         if ($returnFailureType === true && empty($c->mail) === true) {
             return self::EMPTY_MAIL;
-        } else if ($returnFailureType === true && empty($c->password) === true) {
+        } elseif ($returnFailureType === true && empty($c->password) === true) {
             return self::EMPTY_PASSWORD;
         }
 
@@ -33,11 +39,12 @@ class Auth
             FROM
                 User
             WHERE
-                Mail = \'' . $c->mail . '\'
-                AND Password = \'' . $c->password . '\''
+                Mail = \''.$c->mail.'\'
+                AND Password = \''.$c->password.'\''
         );
         if (($id === null && $r !== null) || $id = $r['ID']) {
             self::$id = $r['ID'];
+
             return self::SUCCESS;
         }
         if ($returnFailureType === false) {
@@ -50,11 +57,12 @@ class Auth
             FROM
                 User
             WHERE
-                Mail = \'' . $c->mail . '\''
+                Mail = \''.$c->mail.'\''
         );
         if (empty($r) === true) {
             return self::MAIL_NOT_FOUND;
         }
+
         return self::WRONG_PASSWORD;
     }
 }

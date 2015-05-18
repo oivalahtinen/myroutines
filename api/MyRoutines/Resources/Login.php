@@ -1,12 +1,15 @@
 <?php
 
 namespace MyRoutines\Resources;
-use \MyRoutines\Classes\Response;
-use \MyRoutines\Classes\Auth;
+use MyRoutines\Classes\Response;
+use MyRoutines\Classes\Auth;
 
 class Login
 {
-    public static function getLogins ()
+    /**
+     * @return mixed
+     **/
+    public function getLogins()
     {
         $l = Auth::authenticate(null, true);
         if ($l === Auth::SUCCESS) {

@@ -1,17 +1,24 @@
 <?php
 
 namespace MyRoutines\Resources;
-use \MyRoutines\Classes\Input;
-use \MyRoutines\Classes\Response;
-use \MyRoutines\Classes\DB;
 
-class User
+use MyRoutines\Classes\Input;
+use MyRoutines\Classes\Response;
+use MyRoutines\Classes\DB;
+use MyRoutines\Classes\BaseResource;
+
+class User extends BaseResource
 {
-    public static function postUsers ()
+    public function getUsers()
+    {
+        self::find();
+    }
+
+    public function postUsers()
     {
         $r = ['mail' => false, 'password' => false];
-        $mail = Input::get('mail');
-        $password = Input::get('password');
+        $mail = Input::post('mail');
+        $password = Input::post('password');
 
         if (empty($mail) === false) {
             $r['mail'] = true;
@@ -24,17 +31,7 @@ class User
             return $r;
         }
 
-        $q = DB::query(
-            'INSERT INTO
-                User (
-                    Mail,
-                    Password
-                )
-            VALUES (
-                \'' . $mail . '\',
-                \'' . $password . '\'
-            )'
-        );
+        $q = $this->create(array('Mail' => $mail, 'Password' => $password));
         if ($q === true) {
             return DB::insertId();
         }

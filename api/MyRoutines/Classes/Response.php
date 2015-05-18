@@ -2,16 +2,25 @@
 
 namespace MyRoutines\Classes;
 
+/**
+ *
+ **/
 class Response
 {
     private static $status = 'success';
 
+    /**
+     *
+     **/
     public static function setStatus($status)
     {
         self::$status = $status;
     }
 
-    public static function send($data)
+    /**
+     *
+     **/
+    public static function send($data = 'No data')
     {
         $response = array('status' => self::$status);
         if (self::$status === 'error') {
@@ -19,6 +28,6 @@ class Response
         } else {
             $response['data'] = $data;
         }
-        echo json_encode($response) . "\n";
+        echo json_encode($response)."\n";
     }
 }
