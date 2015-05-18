@@ -9,15 +9,25 @@ body {
     background:url(../images/background.jpg) repeat;
 }
 
-.header {
+
+.headerTitle {
     float:left;
     margin-left:20px;
 }
+.rightsidenavbar {
+    float:right;
+
+}
+.currentUser {
+    float: left;
+    margin: 20px 20px 20px 20px;
+}
 
 .logout {
-    float:right;
+    float: left;
     width:250px;
     margin: 20px 20px 20px 20px;
+
 }
 
 .register {

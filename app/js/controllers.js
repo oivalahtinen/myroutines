@@ -31,7 +31,7 @@ controllers.controller('LoginController',
                         $scope.dataLoading = false;
                     }
                 });
-            };
+            }
         }
     ]);
 
@@ -63,7 +63,7 @@ controllers.controller('RegisterController',
                         $scope.dataLoading = false;
                     }
                 });
-            };
+            }
         }
     ]);
 
@@ -76,5 +76,7 @@ controllers.controller('HomeController',
                 AuthenticationService.ClearCredentials();
                 $location.path('/login');
             };
+
+            $scope.currentUser = $rootScope.globals.currentUser.username;
         }
     ]);
