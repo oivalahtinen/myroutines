@@ -10,6 +10,7 @@ controllers.controller('LoginController',
                 $scope.userRegistrationStatus = UserProperties.getRegisteredUserStatus();
                 $scope.userRegistrationMail = UserProperties.getRegisteredUserMail();
             }
+            UserProperties.clearRegisteredUser();
 
             $scope.checkFormAndSubmit = function(isValid) {
                 if (isValid) {
