@@ -3,8 +3,9 @@
 namespace MyRoutines\Resources;
 use MyRoutines\Classes\Response;
 use MyRoutines\Classes\Auth;
+use MyRoutines\Classes\BaseResource;
 
-class Login
+class Login extends BaseResource
 {
     /**
      * @return mixed
