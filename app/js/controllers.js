@@ -1,10 +1,15 @@
 var controllers = angular.module('controllers',[]);
 
 controllers.controller('LoginController',
-    ['$scope', '$rootScope', '$location', 'AuthenticationService',
-        function ($scope, $rootScope, $location, AuthenticationService) {
+    ['$scope', '$rootScope', '$location', 'AuthenticationService', 'UserProperties',
+        function ($scope, $rootScope, $location, AuthenticationService, UserProperties) {
             // reset login status
             AuthenticationService.ClearCredentials();
+
+            if(UserProperties.getRegisteredUserStatus() === true) {
+                $scope.userRegistrationStatus = UserProperties.getRegisteredUserStatus();
+                $scope.userRegistrationMail = UserProperties.getRegisteredUserMail();
+            }
 
             $scope.checkFormAndSubmit = function(isValid) {
                 if (isValid) {
@@ -30,11 +35,9 @@ controllers.controller('LoginController',
     ]);
 
 controllers.controller('RegisterController',
-    ['$scope', '$rootScope', '$location', 'UserService',
-        function ($scope, $rootScope, $location, UserService) {
-
+    ['$scope', '$rootScope', '$location', 'UserService', 'UserProperties',
+        function ($scope, $rootScope, $location, UserService, UserProperties) {
             $scope.checkFormAndSubmit = function(isValid) {
-                console.log("Form validity:" + isValid);
                 if (isValid) {
                     register();
                 }
@@ -49,12 +52,13 @@ controllers.controller('RegisterController',
                 UserService.Create($scope.user, function(response) {
                     if(response.status === "success") {
                         console.log("Created new user");
+                        UserProperties.setRegisteredUser($scope.user.mail, true);
                         $location.path('/login');
+                        //console.log("Register page:" + UserProperties.getRegisteredUser().toString());
                     } else {
                         if(response.data.mail === false) {
                             $scope.error = "Mail is already in use.";
                         }
-                        //$scope.error = response.data;
                         $scope.dataLoading = false;
                     }
                 });

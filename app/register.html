@@ -23,7 +23,7 @@
         <div class="form-actions">
             <button type="submit" ng-enabled="form.$invalid || dataLoading" class="btn btn-primary btn-block">Register</button>
             <img ng-if="dataLoading" src="images/loading.gif"/>
-            <div class="error" ng-show="error" class="alert alert-danger">{{error}}</div>
+            <div ng-show="error" class="alert alert-danger">{{error}}</div>
             <div class="backbutton">
                 <button ng-click="loginPage()" type="submit" class="btn btn-success btn-block" >Back</button>
             </div>

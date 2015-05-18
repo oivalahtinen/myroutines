@@ -61,7 +61,6 @@ services.factory('AuthenticationService',
             return service;
         }])
 
-//Work in progress
 services.factory('UserService',
     ['$http',
         function ($http) {
@@ -96,3 +95,36 @@ services.factory('UserService',
         }
     ]
 );
+
+services.factory('UserProperties', function() {
+    var registeredUser = {
+        mail: null,
+        active: false
+    };
+
+    return {
+        setRegisteredUser: function(value, status) {
+            registeredUser.mail = value;
+            registeredUser.active = status;
+        },
+        getRegisteredUser: function() {
+            return registeredUser;
+        },
+        getRegisteredUserMail: function() {
+            return registeredUser.mail;
+        },
+        setRegisteredUserMail: function(value) {
+            registeredUser.mail = value;
+        },
+        getRegisteredUserStatus: function() {
+            return registeredUser.active;
+        },
+        setRegisteredUserStatus: function(value) {
+            registeredUser.active = value;
+        },
+        clearRegisteredUser: function() {
+            registeredUser.mail = null;
+            registeredUser.active = false;
+        }
+    }
+});
