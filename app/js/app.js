@@ -34,7 +34,7 @@ function request(params, callBack) {
     }
 
     $.ajax({
-        url: '/myroutines' + url,
+        url: 'http://192.168.10.41/myroutines' + url,
         data: data,
         dataType: "json",
         type: method,
@@ -189,6 +189,10 @@ $(document).ready(function () {
         request("/api/login", function () {
             page.change("home", true);
         });
+    });
+
+    $("#logout-button").click(function (e) {
+        page.change("login", true);
     });
 
     window.onpopstate = function () {

@@ -34,7 +34,7 @@ function request(params, callBack) {
     }
 
     $.ajax({
-        url: '/myroutines' + url,
+        url: 'http://192.168.10.41/myroutines' + url,
         data: data,
         dataType: "json",
         type: method,
@@ -191,6 +191,10 @@ $(document).ready(function () {
         });
     });
 
+    $("#logout-button").click(function (e) {
+        page.change("login", true);
+    });
+
     window.onpopstate = function () {
         page.change(location.hash.substring(1));
     };
@@ -273,16 +277,5 @@ pForm.addOption = function (select, dataTypes, data, label) {
 "use strict";
 
 page.onCreate("user-registration", function () {
-    request("/api/person", function (data) {
-        var person;
-        for (person in data) {
-            if (data.hasOwnProperty(person)) {
-                pForm.addOption($("#select-person"), "id",
-                    data[person].ID, data[person].Lastname + ", "
-                    + data[person].Firstname);
-            }
-        }
-    });
-    $("#select-person").on("changed", function () {
-    });
+    // asdasdasdasdasdasdasdasdasdasd
 });
