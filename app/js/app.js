@@ -1,6 +1,20 @@
 /*global $, document, window, location, alert, pForm*/
 "use strict";
 
+// Tän vois heivata johonkin hornaan tästä
+// --->
+var views = [
+    "login",
+    "user-registration",
+    "home",
+];
+for (var i = 0; i < views.length; i ++) {
+    $.get("views/" + views[i] + ".html", function (html) {
+        $("body").append(html);
+    });
+}
+// <---
+
 var user = {
     credentials: {
         mail: null,
