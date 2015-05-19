@@ -1,30 +1,53 @@
-<!DOCTYPE HTML>
-<html ng-app="myRoutinesApp">
+<html>
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>MyRoutines</title>
-
-    <script src="lib/jquery.js" type="application/javascript"></script>
-    <script src="lib/angular.min.js" type="application/javascript"></script>
-    <script src="lib/angular-resource.js" type="application/javascript"></script>
-    <script src="lib/angular-route.js" type="application/javascript"></script>
-    <script src="lib/angular-messages.js" type="application/javascript"></script>
-    <script src="lib/angular-cookies.js" type="application/javascript"></script>
-    <script src="lib/lodash.js" type="application/javascript"></script>
-    <script src="lib/ui-bootstrap-tpls-0.13.0.js" type="application/javascript"></script>
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
-    <script src="js/directives.js"></script>
-
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link href="css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="css/bootstrap/bootstrap.css" rel="stylesheet" type="text/css">
+    <meta charset="utf-8" />
+    <title>My Routines</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
 </head>
 <body>
-<div ng-view></div>
+
+    <div id="page" data-page="">
+        <div id="header">
+            <h2></h2>
+            <div id="logout-button"></div>
+            <div id="settings-button"></div>
+        </div>
+        <div id="content"></div>
+    </div>
+
+    <div id="menu-container">
+        <div id="menu-title">
+            <h2>Menu</h2>
+            <div id="menu-button"></div>
+        </div>
+        <div id="menu">
+            <a href="home" class="menu-item" data-icon="home-white">Home</a>
+        </div>
+    </div>
+
+    <div id="page-login" class="page login" data-title="Log In">
+        <div>
+            <form>
+            <input id="login-mail" class="icon-input" data-icon="user" type="text" placeholder="Username" />
+            <input id="login-password" class="icon-input" data-icon="lock" type="password" placeholder="Password" />
+            <input id="login-submit" type="submit" value="Log In" />
+            </form>
+        </div>
+    </div>
+
+    <div id="page-user-registration" class="page" data-title="Create new user">
+        <div>
+            asd
+        </div>
+    </div>
+
+    <div id="page-home" class="page" data-title="Home">
+        <div>
+            Hello World!
+        </div>
+    </div>
+
 </body>
 </html>

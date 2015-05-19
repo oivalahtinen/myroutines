@@ -9,7 +9,7 @@ use MyRoutines\Classes;
  **/
 class Router
 {
-    private static $url = '';
+    private static $url = array();
     private static $resources = array();
     private static $id = array();
 

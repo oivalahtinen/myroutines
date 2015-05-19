@@ -1,0 +1,152 @@
+form {
+position: relative;
+}
+.input() {
+box-sizing: border-box;
+margin: 10px 0px 0px 0px;
+border-radius: 5px;
+border: 1px solid;
+padding: 20px;
+width: 100%;
+font-size: 1em;
+font-family: 'sans-serif';
+color: #333;
+background-color: #FAFAFA;
+    &:hover, &:focus {
+    box-shadow: 0px 0px 10px @highlight-color;
+    }
+}
+.select {
+.input();
+position: relative;
+padding: 20px 40px 20px 20px;
+background-image+: url('img/down-arrow.png');
+background-repeat: no-repeat;
+background-size+: 32px 32px;
+background-position+: right 10px center;
+    &:hover {
+    cursor: default;
+    .user-select(none);
+    }
+    .option {
+    padding: 10px;
+    }
+    .option:hover {
+    cursor: default;
+    background-color: #DDDDDD;
+    }
+    .option[data-selected] {
+    background-color: #CCCCCC;
+    }
+    .selected {
+    white-space: nowrap;
+    overflow: hidden;
+    }
+}
+.icon-select(@icon) {
+.select();
+background-image+: url('img/@{icon}.png');
+background-position+: 14px 14px;
+padding-left: 48px;
+    .option {
+    padding-left: 42px;
+    background-image: url('img/@{icon}.png');
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    background-position: 8px center;
+    }
+    .selected {
+    padding-left: 10px;
+    }
+}
+.base-button() {
+border-color: #333;
+background-repeat+: no-repeat;
+background-size+: auto;
+background-position+: top left;
+font-weight: bold;
+text-shadow: 0px -1px 1px #000;
+    &:hover {
+    cursor: pointer;
+    }
+}
+.button {
+.input();
+.base-button();
+background-image+: linear-gradient(#CCC, #EEE);
+color: #FFF;
+box-shadow: 0px 1px #BBB inset, 0px -1px #DDD inset;
+    &:hover {
+    background-image+: linear-gradient(#EEE, #CCC);
+    }
+}
+.icon-button(@icon) {
+.input();
+.base-button();
+width: 61px;
+height: 61px;
+background-image+: url('img/@{icon}.png'), linear-gradient(#CCC, #EEE);
+background-size: 32px 32px, auto;
+background-position: center;
+box-shadow: 0px 1px #BBB inset, 0px -1px #DDD inset;
+//filter: drop-shadow(0px 0px 5px black);
+    &:hover {
+    background-image+: url('img/@{icon}.png'), linear-gradient(#EEE, #CCC);
+    }
+}
+.submit-button() {
+.base-button();
+background-image+: linear-gradient(#A64B00, #731800);
+color: #fff;
+box-shadow: 0px 1px #C86D22 inset, 0px -1px #953A00 inset;
+    &:hover {
+    background-image+: linear-gradient(#A64B00, #D97E33);
+    }
+}
+.icon-submit-button(@icon) {
+.base-button();
+background-image+: url('img/@{icon}.png'), linear-gradient(#A64B00, #731800);
+background-size: 32px 32px, auto;
+background-position: 14px 14px, left top;
+color: #fff;
+box-shadow: 0px 1px #C86D22 inset, 0px -1px #953A00 inset;
+    &:hover {
+    background-image+: url('img/@{icon}.png'), linear-gradient(#A64B00, #D97E33);
+    }
+}
+.textarea {
+.input();
+float: left;
+box-sizing: border-box;
+position: relative;
+resize: vertical;
+background-color: #FAFAFA;
+outline:none;
+}
+.options {
+.input();
+display: none;
+padding: 0px;
+z-index: 1000;
+max-height: 314px;
+position: absolute;
+top: 50px;
+left: 0px;
+overflow-y: auto;
+box-shadow: 0px 0px 10px #333;
+}
+input, .input {
+.input();
+}
+input[type="text"], input[type="password"] {
+border-color: #888;
+}
+input[type="submit"] {
+.submit-button();
+}
+.icon-input {
+background-repeat: no-repeat;
+background-position: 10px center;
+background-size: 36px 36px;
+padding-left: 60px;
+}
