@@ -5,6 +5,7 @@ $files = array(
     './app.js',
     './pform.js',
     './controllers/user-registration.js',
+    './controllers/home.js',
 );
 
 foreach ($files as $file) {

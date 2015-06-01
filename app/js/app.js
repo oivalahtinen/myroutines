@@ -9,8 +9,11 @@ var views = [
     "home",
 ];
 for (var i = 0; i < views.length; i ++) {
-    $.get("views/" + views[i] + ".html", function (html) {
-        $("body").append(html);
+    $.ajax({
+        //async: false,
+        url: "views/" + views[i] + ".html",
+    }).done(function (contentHtml) {
+        $("body").append(contentHtml);
     });
 }
 // <---
@@ -19,14 +22,15 @@ var user = {
     credentials: {
         mail: null,
         password: null,
-    }
+    },
+    id: null,
 };
 
 function forIn(object, callBack) {
     var key;
     for (key in object) {
         if (object.hasOwnProperty(key)) {
-            callBack(key, object);
+            callBack(key);
         }
     }
 }
@@ -68,47 +72,6 @@ function request(params, callBack) {
         .fail(function () {
             alert("Error connecting API");
         });
-}
-
-function toggleMenu() {
-    var menuPosition, menuButtonMargin, pagePadding;
-    if ($("#menu-container").position().left === 0) {
-        if ($(window).width() >= 1000) {
-            menuPosition = "-320px";
-            menuButtonMargin = "330px";
-            pagePadding = "10px";
-        } else {
-            menuPosition = "-320px";
-            menuButtonMargin = "330px";
-            pagePadding = "10px";
-        }
-    } else {
-        if ($(window).width() >= 1000) {
-            menuPosition = "0px";
-            menuButtonMargin = "10px";
-            pagePadding = "320px";
-        } else {
-            menuPosition = "0px";
-            menuButtonMargin = "10px";
-            pagePadding = "10px";
-        }
-    }
-    $("#page").animate({
-        "padding-left": pagePadding
-    });
-    $("#menu-container").animate({
-        "left": menuPosition,
-    }, function () {
-        if ($("#menu-container").position().left === 0) {
-            $("#page").removeAttr("style");
-            $("#page").show();
-        }
-    });
-    $("#menu-button").fadeOut(200).animate({
-        "margin-left": menuButtonMargin
-    }, function () {
-        $(this).fadeIn(200);
-    });
 }
 
 var page = {
@@ -200,7 +163,8 @@ $(document).ready(function () {
         e.preventDefault();
         user.credentials.mail = $("#login-mail").val();
         user.credentials.password = $("#login-password").val();
-        request("/api/login", function () {
+        request("/api/login", function (data) {
+            user.id = data.ID;
             page.change("home", true);
         });
     });
@@ -216,15 +180,11 @@ $(document).ready(function () {
     $("a").click(function (e) {
         e.preventDefault();
         var href = $(this).attr("href");
-        window.history.pushState(null, "", "#" + href);
-        page.change(href);
+        //window.history.pushState(null, "", "#" + href);
+        page.change(href, true);
     });
 
     $("html").click(function () {
         $(".options").hide();
-    });
-
-    $("#menu-button").click(function () {
-        toggleMenu();
     });
 });
