@@ -52,7 +52,7 @@ function request(params, callBack) {
     }
 
     $.ajax({
-        url: 'http://192.168.10.41/myroutines' + url,
+        url: 'http://localhost/myroutines' + url,
         data: data,
         dataType: "json",
         type: method,
