@@ -26,6 +26,32 @@ var user = {
     id: null,
 };
 
+user.save = function () {
+    var d = new Date();
+    d.setTime(d.getTime() + (1 * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = "id=" + user.id + "; " + expires;
+    document.cookie = "mail=" + user.credentials.mail + "; " + expires;
+    document.cookie = "password=" + user.credentials.password + "; " + expires;
+}
+
+user.load = function () {
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i ++) {
+        var c = ca[i];
+        while (c.charAt(0) == " ") {
+            c = c.substring(1);
+        }
+        if (c.indexOf("id") == 0) {
+            user.id = c.substring(3, c.length);
+        } else if (c.indexOf("mail") == 0) {
+            user.credentials.mail = c.substring(5, c.length);
+        } else if (c.indexOf("password") == 0) {
+            user.credentials.password = c.substring(9, c.length);
+        }
+    }
+}
+
 function forIn(object, callBack) {
     var key;
     for (key in object) {
@@ -52,7 +78,7 @@ function request(params, callBack) {
     }
 
     $.ajax({
-        url: 'http://localhost/myroutines' + url,
+        url: 'http://127.0.0.1/myroutines' + url,
         data: data,
         dataType: "json",
         type: method,
@@ -158,13 +184,17 @@ $(document).ready(function () {
     addIcons();
     pForm.createTextareas();
     pForm.createSelects();
+
+    user.load();
     page.change(location.hash.substring(1));
+
     $("#login-submit").click(function (e) {
         e.preventDefault();
         user.credentials.mail = $("#login-mail").val();
         user.credentials.password = $("#login-password").val();
         request("/api/login", function (data) {
             user.id = data.ID;
+            user.save();
             page.change("home", true);
         });
     });
